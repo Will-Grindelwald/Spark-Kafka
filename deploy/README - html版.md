@@ -1,6 +1,8 @@
-![封面](封面.jpg "封面")
+# 工业大数据实时分析与可视化 (Spark版) 部署文档
 
-<br>
+| 撰写人 | 撰写时间 | 版本 |
+| --- | --- | --- |
+| 李捷承 | 2016.12.28 | 1.0 |
 
 ## 目录
 
@@ -652,25 +654,25 @@ bin/spark-submit --class org.apache.spark.examples.SparkPi \
 
 到 Yarn-UI(http://master_hostname:8088), 找到任务
 
-![1](1.png)
+![1](README_files/1.png)
 
 点进去, 左上角的 `Kill Application` 用于关闭这个任务
 
-![2](2.png)
+![2](README_files/2.png)
 
 中间的 `ApplicationMaster` 可以跳转到 Spark-UI 查看 spark 对这个任务的 UI 界面
 
-![3](3.png)
+![3](README_files/3.png)
 
-![4](4.png)
+![4](README_files/4.png)
 
 下面的是对这个任务的描述, 如下, 只在一个节点上运行, 点击 `Logs` 可以查看 logs 输出
 
-![5](5.png)
+![5](README_files/5.png)
 
 这是示例程序的输出
 
-![6](6.png)
+![6](README_files/6.png)
 
 ### 3.6 Spark Streaming 可配置的属性
 
