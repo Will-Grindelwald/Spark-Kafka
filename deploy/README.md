@@ -54,7 +54,7 @@ sudo firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address
 1 台 master, 3 台 slave
 
 | 机器名 | IP 地址 | 作用 |
-| ------ | ------------- | --------------------- |
+| ----- | ------- | ---- |
 | master | 192.168.1.170 | NameNode, ResourceManager                |
 | slave1 | 192.168.1.171 | DataNode, NodeManager, SecondaryNameNode |
 | slave2 | 192.168.1.172 | DataNode, NodeManager                    |
@@ -124,6 +124,12 @@ sudo chown -R will:will $HADOOP_HOME
 
 **四台机器的配置完全一样, 只需配置完一台, 再复制到其余三台机器上就行**
 
+* http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/core-default.xml
+* http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml
+* http://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml
+* http://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-common/yarn-default.xml
+* http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/DeprecatedProperties.html
+
 #### 1.5.1 HDFS 配置文件
 
 * `$HADOOP_HOME/etc/hadoop/hadoop-env.sh` hadoop 运行环境配置, 修改如下位置
@@ -154,7 +160,7 @@ export JAVA_HOME=/usr/lib/jvm/java
 ```bash
 <configuration>
     <property>
-        <name>dfs.http.address</name>
+        <name>dfs.namenode.http-address</name>
         <value>master:50070</value>
         <description>配置 HDFS 的 http 的访问位置</description>
     </property>
