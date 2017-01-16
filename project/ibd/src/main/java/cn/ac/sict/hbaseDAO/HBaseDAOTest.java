@@ -66,8 +66,8 @@ public class HBaseDAOTest {
 				new String[] { "1", "1", "1" });
 		HBaseDAOUtil.put(hBaseDAO.getConnection(), tableNameStr, "row3", columnFamily, new String[] { "a", "b", "c" },
 				new String[] { "2", "2", "2" });
-		HBaseDAOUtil.put(hBaseDAO.getConnection(), tableNameStr, new String[] { "row1", "row2", "row3" }, columnFamily, "z",
-				new String[] { "z1", "z2", "z3" });
+		HBaseDAOUtil.put(hBaseDAO.getConnection(), tableNameStr, new String[] { "row1", "row2", "row3" }, columnFamily,
+				"z", new String[] { "z1", "z2", "z3" });
 
 		// 检索数据-表扫描
 		System.out.println("7. scanTable");

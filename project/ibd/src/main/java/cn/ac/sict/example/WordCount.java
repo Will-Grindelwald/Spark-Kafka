@@ -56,7 +56,8 @@ public class WordCount {
 			}
 		});
 
-		// Print the first ten elements of each RDD generated in this DStream to the console
+		// Print the first ten elements of each RDD generated in this DStream to
+		// the console
 		wordCounts.print();
 	}
 }

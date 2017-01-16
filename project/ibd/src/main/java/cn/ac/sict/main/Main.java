@@ -1,6 +1,7 @@
 package cn.ac.sict.main;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.spark.SparkConf;
@@ -9,7 +10,8 @@ import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
-import cn.ac.sict.example.WordCount;
+import cn.ac.sict.Vis.Site;
+import cn.ac.sict.Vis.VisMap;
 import cn.ac.sict.streamSource.KafkaStreamSource;
 
 public class Main {
@@ -40,8 +42,13 @@ public class Main {
 				configProps.getProperty("zkQuorum"), configProps.getProperty("consumeGroup"), args[0],
 				Integer.valueOf(args[1]));
 
-		// 运行 wordCount
-		WordCount.wordCount(source);
+		// 运行 wordCount demo
+		 cn.ac.sict.example.WordCount.wordCount(source);
+
+		// vis
+//		Site site = new Site();
+//		List<Integer> list = site.getList();
+//		VisMap.getKafkaValue(source, list);
 
 		// 启动 Spark Streaming
 		jssc.start();
