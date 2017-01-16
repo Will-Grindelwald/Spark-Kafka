@@ -1,0 +1,6 @@
+var express = require('./app.js');
+var app=express();
+app.listen(8089,function(){
+	console.log("server is running on port 8089");
+})
+module.exports = app;
