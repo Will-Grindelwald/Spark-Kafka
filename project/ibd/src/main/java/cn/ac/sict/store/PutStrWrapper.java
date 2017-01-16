@@ -1,9 +1,8 @@
-package com.ljc.sparkStreaming.sensor;
+package cn.ac.sict.store;
 
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.spark.api.java.function.Function;
-import org.json.JSONObject;
 
 public class PutStrWrapper {
 	private String rowKey;

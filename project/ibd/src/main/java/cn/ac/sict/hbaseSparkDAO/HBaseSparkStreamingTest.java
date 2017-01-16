@@ -16,7 +16,7 @@ import org.apache.spark.streaming.kafka.KafkaUtils;
 import scala.Tuple2;
 
 /**
- * 目前只有 streamBulkPut
+ * 仅测试 streamBulkPut
  *
  */
 public class HBaseSparkStreamingTest {
