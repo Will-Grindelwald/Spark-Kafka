@@ -10,7 +10,7 @@ import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
 import cn.ac.sict.example.WordCount;
-import cn.ac.sict.source.KafkaStreamSource;
+import cn.ac.sict.streamSource.KafkaStreamSource;
 
 public class Main {
 
