@@ -1,4 +1,4 @@
-package cn.ac.sict.ljc.kafka_producer_sensor_toSpark;
+package cn.ac.sict.pseudoSource;
 
 /**
  * 模拟传感器: n 个 温度传感器

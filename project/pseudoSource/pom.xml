@@ -49,7 +49,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>cn.ac.sict.ljc.kafka_producer_sensor_toSpark.Sensor</mainClass>
+							<mainClass>cn.ac.sict.pseudoSource.Sensor</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

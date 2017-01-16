@@ -1,4 +1,4 @@
-package cn.ac.sict.ljc.kafka_producer_sensor_toSpark;
+package cn.ac.sict.pseudoSource;
 
 import java.util.Date;
 import java.util.Properties;
@@ -10,6 +10,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import com.google.gson.Gson;
+
+import cn.ac.sict.signal.TemperSignal;
 
 public class TemperSensorProducer extends Thread {
 
