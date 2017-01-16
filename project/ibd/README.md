@@ -9,7 +9,7 @@
 |     |__example/
 |     |  |__WordCount.java -- `spark driver 程序 wordcount demo`
 |     |
-|     |__hbaseDAO/ -- `hbase-spark DAO 层`
+|     |__hbaseSparkDAO/ -- `hbase-spark DAO 层`
 |     |
 |     |__main/
 |     |  |__Main.java -- `spark driver 程序的主入口`
@@ -19,7 +19,10 @@
 |     |  |__TemperSignal.java -- `温度传感器`
 |     |
 |     |__streamSource/
-|        |__KafkaStreamSource.java -- `用于创建 SparkStreaming 数据流的 Kafka 源`
+|     |  |__KafkaStreamSource.java -- `用于创建 SparkStreaming 数据流的 Kafka 源`
+|     |
+|     |__Vis/ -- `可视化相关代码`
+|        |__RedisClient.java  -- `redis 资源池`
 |
 |__src.main.resource/ -- `资源文件目录`
    |__sysConfig.properties -- `存放公共常量, 读取方式见 cn.ac.sict.main.Main.java`

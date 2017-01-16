@@ -1,5 +1,6 @@
-package cn.ac.sict.hbaseDAO;
+package cn.ac.sict.hbaseSparkDAO;
 
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Delete;
@@ -277,5 +278,23 @@ public class HBaseSparkDAOUtil {
 		public Result call(Tuple2<ImmutableBytesWritable, Result> v1) throws Exception {
 			return v1._2();
 		}
+	}
+
+	/**
+	 * 
+	 * @param result
+	 */
+	public static String recoderToString(Result result) {
+		StringBuilder resultString = new StringBuilder();
+		resultString.append("RowKey: " + Bytes.toString(result.getRow()));
+		for (Cell cell : result.rawCells()) {
+			resultString.append("\n\tColumnFamily: "
+					+ Bytes.toString(cell.getFamilyArray(), cell.getFamilyOffset(), cell.getFamilyLength())
+					+ ", Column: "
+					+ Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength())
+					+ ", Value: " + Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength())
+					+ ", Timestamp:" + cell.getTimestamp());
+		}
+		return resultString.toString();
 	}
 }

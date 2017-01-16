@@ -1,16 +1,14 @@
-package cn.ac.sict;
+package cn.ac.sict.Vis;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
-public class Site  {
+public class Site {
 
-	private static final SparkSession session=SparkSession.builder().getOrCreate();;
+	private static final SparkSession session = SparkSession.builder().getOrCreate();;
 	private Dataset<Row> jdbcDF;
 	private static List<String> views;
 

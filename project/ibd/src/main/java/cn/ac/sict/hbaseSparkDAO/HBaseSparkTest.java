@@ -1,4 +1,4 @@
-package cn.ac.sict.hbaseDAO;
+package cn.ac.sict.hbaseSparkDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,13 +50,13 @@ public class HBaseSparkTest {
 
 		JavaRDD<Result> getResultRDD = HBaseSparkDAOUtil.bulkGetSimple(hDAO.getHbaseContext(), tableName, getRdd);
 		for (Result result : getResultRDD.collect()) {
-			System.out.println(HBaseDAOUtil.recoderToString(result));
+			System.out.println(HBaseSparkDAOUtil.recoderToString(result));
 		}
 
 		// 3. DistributedScan
 		JavaRDD<Result> scanResultRDD = HBaseSparkDAOUtil.DistributedScanSimple(hDAO.getHbaseContext(), tableName);
 		for (Result result : scanResultRDD.collect()) {
-			System.out.println(HBaseDAOUtil.recoderToString(result));
+			System.out.println(HBaseSparkDAOUtil.recoderToString(result));
 		}
 
 		// 4. Delete

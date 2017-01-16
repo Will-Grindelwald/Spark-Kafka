@@ -1,4 +1,4 @@
-package cn.ac.sict;
+package cn.ac.sict.Vis;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -22,7 +22,8 @@ public class RedisClient implements KryoSerializable {
 		config.setMaxIdle(100);
 		jedisPool = new JedisPool(config, HOST);
 	}
-
+	
+	//调用此方法获取reids连接
 	public Jedis getResource() {
 		return jedisPool.getResource();
 	}

@@ -2,6 +2,7 @@ package cn.ac.sict.hbaseDAO;
 
 import java.io.Closeable;
 import java.io.IOException;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;

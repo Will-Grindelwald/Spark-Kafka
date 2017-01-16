@@ -1,6 +1,8 @@
-package cn.ac.sict.hbaseDAO;
+package cn.ac.sict.hbaseSparkDAO;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -9,8 +11,7 @@ import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-
-import com.ljc.sparkStreaming.template.KafkaStreamSource;
+import org.apache.spark.streaming.kafka.KafkaUtils;
 
 import scala.Tuple2;
 
@@ -19,6 +20,9 @@ import scala.Tuple2;
  *
  */
 public class HBaseSparkStreamingTest {
+
+	public static final String zkQuorum = "192.168.125.171:2181,192.168.125.172:2181,192.168.125.173:2181";
+	public static final String consumeGroup = "ljc_group";
 
 	public static void main(String[] args) throws IOException {
 		if (args.length != 3) {
@@ -31,9 +35,9 @@ public class HBaseSparkStreamingTest {
 
 		JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 		HBaseSparkDAO hDAO = HBaseSparkDAO.getDao(jsc);
-		
+
 		JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(1000));
-		JavaPairReceiverInputDStream<String, String> source = KafkaStreamSource.createStringSource(jssc, args[0],
+		JavaPairReceiverInputDStream<String, String> source = createStringSource(jssc, zkQuorum, consumeGroup, args[0],
 				Integer.valueOf(args[1]));
 
 		JavaDStream<String> massages = source.map(new Function<Tuple2<String, String>, String>() {
@@ -54,5 +58,14 @@ public class HBaseSparkStreamingTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static JavaPairReceiverInputDStream<String, String> createStringSource(JavaStreamingContext jssc,
+			String zkQuorum, String consumeGroup, String topics, int numThreads) {
+		Map<String, Integer> topicMap = new HashMap<>();
+		for (String topic : topics.split(",")) {
+			topicMap.put(topic, numThreads);
+		}
+		return KafkaUtils.createStream(jssc, zkQuorum, consumeGroup, topicMap);
 	}
 }
