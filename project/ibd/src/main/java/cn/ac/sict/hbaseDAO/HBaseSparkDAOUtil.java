@@ -1,4 +1,4 @@
-package com.ljc.hbase;
+package cn.ac.sict.hbaseDAO;
 
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;

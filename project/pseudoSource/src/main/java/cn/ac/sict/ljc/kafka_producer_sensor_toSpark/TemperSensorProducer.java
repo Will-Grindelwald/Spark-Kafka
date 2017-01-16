@@ -9,7 +9,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 
 public class TemperSensorProducer extends Thread {
 
@@ -43,17 +43,21 @@ public class TemperSensorProducer extends Thread {
 		this.rnd = new Random(System.nanoTime());
 		this.randValue = (double) (min + rnd.nextInt((max - min) * 1000) / 1000.0);
 		this.signal = new TemperSignal();
-		signal.setId(ID);
+		signal.id = ID;
 	}
 
 	@Override
 	public void run() {
 		try {
 			String key = (ID) + "", msg = null; // key = ID
+			Gson gson = new Gson();
 			while (true) {
 				nextValue(signal);
-				msg = JSON.toJSONString(signal);
-				producer.send(new ProducerRecord<String, String>(Topic, key, msg));
+				msg = gson.toJson(signal);
+				ProducerRecord<String, String> newRecord = new ProducerRecord<String, String>(Topic, key, msg);
+				// System.out.println(ID + "\t1");
+				producer.send(newRecord);
+				// System.out.println(ID + "\t2");
 				System.out.println(msg);
 
 				// 1000 ms 发一次消息
@@ -73,11 +77,11 @@ public class TemperSensorProducer extends Thread {
 			direct *= -1;
 		randValue = randValue + direct * rnd.nextInt(1000) * rnd.nextGaussian() / 1000; // 下一个尽量连续的随机数
 		while (randValue > max)
-			randValue -= rnd.nextDouble() / 1000;
+			randValue -= rnd.nextDouble() / 100;
 		while (randValue < min)
-			randValue += rnd.nextDouble() / 1000;
-		signal.setValue((int) (randValue * 10000) / 10000.0); // 精度为 4 位小数
-		signal.setTime(new Date().getTime() * 1000 + System.nanoTime() % 1000000 / 1000);
+			randValue += rnd.nextDouble() / 100;
+		signal.temper = (int) (randValue * 10000) / 10000.0; // 精度为 4 位小数
+		signal.time = new Date().getTime() * 1000 + System.nanoTime() % 1000000 / 1000;
 	}
 
 }

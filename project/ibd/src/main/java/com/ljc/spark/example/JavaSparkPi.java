@@ -1,4 +1,4 @@
-package com.ljc.spark;
+package com.ljc.spark.example;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;

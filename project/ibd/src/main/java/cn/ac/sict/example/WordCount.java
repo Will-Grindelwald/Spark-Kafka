@@ -1,4 +1,4 @@
-package cn.ac.sict;
+package cn.ac.sict.example;
 
 import java.util.Arrays;
 import java.util.Iterator;

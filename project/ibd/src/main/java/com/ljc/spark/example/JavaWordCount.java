@@ -1,4 +1,4 @@
-package com.ljc.spark;
+package com.ljc.spark.example;
 
 import scala.Tuple2;
 

@@ -2,6 +2,7 @@ package com.ljc.hbase.hbaseForSparkExample;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
@@ -14,8 +15,6 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
-
-import com.ljc.hbase.HBaseDAOUtil;
 
 import scala.Tuple2;
 
@@ -40,7 +39,7 @@ public class JavaHBaseDistributedScan {
 		try {
 			JavaRDD<Result> resultRDD = DistributedScan(jsc, tableName);
 			for (Result result : resultRDD.collect()) {
-				System.out.println(HBaseDAOUtil.recoderToString(result));
+				System.out.println(recoderToString(result));
 			}
 		} finally {
 			jsc.stop();
@@ -77,5 +76,19 @@ public class JavaHBaseDistributedScan {
 		public Result call(Tuple2<ImmutableBytesWritable, Result> v1) throws Exception {
 			return v1._2();
 		}
+	}
+
+	public static String recoderToString(Result result) {
+		StringBuilder resultString = new StringBuilder();
+		resultString.append("RowKey: " + Bytes.toString(result.getRow()));
+		for (Cell cell : result.rawCells()) {
+			resultString.append("\n\tColumnFamily: "
+					+ Bytes.toString(cell.getFamilyArray(), cell.getFamilyOffset(), cell.getFamilyLength())
+					+ ", Column: "
+					+ Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength())
+					+ ", Value: " + Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength())
+					+ ", Timestamp:" + cell.getTimestamp());
+		}
+		return resultString.toString();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Get;
@@ -15,8 +16,6 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
-
-import com.ljc.hbase.HBaseDAOUtil;
 
 /**
  * This is a simple example of getting records in HBase with the bulkGet
@@ -49,7 +48,7 @@ public class JavaHBaseBulkGetExample {
 		try {
 			JavaRDD<Result> resultRDD = bulkGet(jsc, tableName, rdd);
 			for (Result result : resultRDD.collect()) {
-				System.out.println(HBaseDAOUtil.recoderToString(result));
+				System.out.println(recoderToString(result));
 			}
 		} finally {
 			jsc.stop();
@@ -86,5 +85,19 @@ public class JavaHBaseBulkGetExample {
 		public Result call(Result result) throws Exception {
 			return result;
 		}
+	}
+
+	public static String recoderToString(Result result) {
+		StringBuilder resultString = new StringBuilder();
+		resultString.append("RowKey: " + Bytes.toString(result.getRow()));
+		for (Cell cell : result.rawCells()) {
+			resultString.append("\n\tColumnFamily: "
+					+ Bytes.toString(cell.getFamilyArray(), cell.getFamilyOffset(), cell.getFamilyLength())
+					+ ", Column: "
+					+ Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength())
+					+ ", Value: " + Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength())
+					+ ", Timestamp:" + cell.getTimestamp());
+		}
+		return resultString.toString();
 	}
 }

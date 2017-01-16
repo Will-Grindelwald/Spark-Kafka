@@ -1,4 +1,4 @@
-package com.ljc.hbase;
+package cn.ac.sict.hbaseDAO;
 
 import java.io.Closeable;
 import java.io.IOException;
