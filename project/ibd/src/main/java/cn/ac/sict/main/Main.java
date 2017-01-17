@@ -12,11 +12,14 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
 import cn.ac.sict.Vis.Site;
 import cn.ac.sict.Vis.VisMap;
+import cn.ac.sict.hbaseSparkDAO.HBaseSparkDAO;
+import cn.ac.sict.signal.TemperSignal;
+import cn.ac.sict.store.Store;
 import cn.ac.sict.streamSource.KafkaStreamSource;
 
 public class Main {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		if (args.length != 2) {
 			System.err.println("Usage: Main <topics> <numThreads>");
 			System.exit(1);
@@ -45,10 +48,14 @@ public class Main {
 		// 运行 wordCount demo
 		// cn.ac.sict.example.WordCount.wordCount(source);
 
+		// store
+		Store.toHBase(HBaseSparkDAO.getDao(jsc), configProps.getProperty("hbase_tableName"),
+				configProps.getProperty("hbase_tableColumnFamily"), source, TemperSignal.class);
+
 		// vis
-		Site site = new Site();
-		List<Integer> list = site.getList();
-		VisMap.getKafkaValue(source, list);
+		// Site site = new Site();
+		// List<Integer> list = site.getList();
+		// VisMap.getKafkaValue(source, list);
 
 		// 启动 Spark Streaming
 		jssc.start();

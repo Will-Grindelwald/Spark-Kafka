@@ -16,17 +16,15 @@ import org.apache.spark.streaming.kafka.KafkaUtils;
 import scala.Tuple2;
 
 /**
- * 仅测试 streamBulkPut
- *
+ * 仅测试 streamBulkPut, 向 kafka 的 <topics> 发送 put 命令: "rowKey,columnFamily,columnKey,value"
+ * Usage: HBaseSparkStreamingTest <zkQuorum> <consumeGroup> <topics> <numThreads> <tableName>
+ * example: HBaseSparkStreamingTest 192.168.125.171:2181,192.168.125.172:2181,192.168.125.173:2181 ljc_group ljc_test 3 ljc_test
  */
 public class HBaseSparkStreamingTest {
 
-	public static final String zkQuorum = "192.168.125.171:2181,192.168.125.172:2181,192.168.125.173:2181";
-	public static final String consumeGroup = "ljc_group";
-
 	public static void main(String[] args) throws IOException {
-		if (args.length != 3) {
-			System.err.println("Usage: Main <topics> <numThreads> <tableName>");
+		if (args.length != 5) {
+			System.err.println("Usage: HBaseSparkStreamingTest <zkQuorum> <consumeGroup> <topics> <numThreads> <tableName>");
 			System.exit(1);
 		}
 
@@ -37,8 +35,8 @@ public class HBaseSparkStreamingTest {
 		HBaseSparkDAO hDAO = HBaseSparkDAO.getDao(jsc);
 
 		JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(1000));
-		JavaPairReceiverInputDStream<String, String> source = createStringSource(jssc, zkQuorum, consumeGroup, args[0],
-				Integer.valueOf(args[1]));
+		JavaPairReceiverInputDStream<String, String> source = createStringSource(jssc, args[0], args[1], args[2],
+				Integer.valueOf(args[3]));
 
 		JavaDStream<String> massages = source.map(new Function<Tuple2<String, String>, String>() {
 			private static final long serialVersionUID = 4669572391207668762L;
@@ -50,7 +48,7 @@ public class HBaseSparkStreamingTest {
 		});
 
 		massages.print();
-		HBaseSparkDAOUtil.streamBulkPutSimple(hDAO.getHbaseContext(), args[2], massages);
+		HBaseSparkDAOUtil.streamBulkPutSimple(hDAO.getHbaseContext(), args[4], massages);
 
 		jssc.start();
 		try {
