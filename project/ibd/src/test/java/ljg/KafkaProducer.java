@@ -8,7 +8,11 @@ import java.util.Properties;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
-
+/***
+ * 
+ *  定义kafka生产者
+ *
+ */
 public class KafkaProducer {
 	  public static final String METADATA_BROKER_LIST_KEY = "metadata.broker.list";
 	  public static final String SERIALIZER_CLASS_KEY = "serializer.class";

@@ -1,4 +1,7 @@
 package ljg;
+/***
+ * 创建Kafka生产者，向指定topic发送消息
+ */
 import java.util.Properties;
 import java.util.Random;
 import org.json.JSONObject;
@@ -23,9 +26,9 @@ public class KafkaProducerDemo {
 	}
 	public void sendMessage(String topic,  int  messageCount    ){
 	   Random r =new Random();
-	 //  long startTime = System.currentTimeMillis();
+	  
 	   long timeStamp = System.currentTimeMillis()/1000;
-	  // for(int i=0;i<messageCount;i++){
+	   
 	   while(true){
 		   long startTime = System.currentTimeMillis();
 		    String randomNumber = Integer.toString(r.nextInt(50));
@@ -34,17 +37,14 @@ public class KafkaProducerDemo {
 		 	msg.put("number",randomNumber   );
 		    producer.send(new ProducerRecord<String, String>(topic, msg.toString()));
 		    long endTime = System.currentTimeMillis();
-		  //  System.out.println(messageCount+"条"+"记录:用时"+(endTime-startTime)*0.001+"秒");
 		    try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//}
-	   }
-	 //  long endTime = System.currentTimeMillis();
-	 //   System.out.println(messageCount+"条"+"记录:用时"+(endTime-startTime)*0.001+"秒");
+	   	}
+ 
 	}
 	public void sendMessage(String topic, String message ){
 		producer.send(new ProducerRecord<String, String>(topic, message));

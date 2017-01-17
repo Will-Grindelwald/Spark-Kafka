@@ -23,24 +23,25 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import scala.Tuple2;
-
- 
-
+/****
+ * 实现Kafka与Spark Streaming集成：
+ * 1.数据从kafka流入
+ * 2.SparkStreaming处理
+ * 3.处理后的数据流发送到Kafka,redis
+ */
 public class KafkaSparkStreaming {
 	public static final String KAFKA_GROUP_ID = "kafka-streaming";
 	public static void main(String[] args) {
-		String topic = "origin-topic";
-		
+		//Kafka 与Spark Streaming 集成
+		String topic = "origin";//通过Kafka将消息发送到该主题
 		HashSet<String> topicSet = new HashSet<>();
 		topicSet.add(topic);
 	    HashMap<String, String> kafkaParam = new HashMap<>();
 	    kafkaParam.put("metadata.broker.list" ,"master-cent7-1:9092,master-cent7-2:9092,master-cent7-3:9092");
 	    kafkaParam.put("group.id",KAFKA_GROUP_ID);
-	    
 	    SparkConf sparkConf = new SparkConf().setAppName("streaming-kafka");
 	    JavaStreamingContext jssc = new JavaStreamingContext(sparkConf,new Duration(5000) );
-	    final Broadcast<String> brokerListBroadcast = jssc.sparkContext().broadcast("master-cent7-1:9092,master-cent7-2:9092,master-cent7-3:9092");
-	    Broadcast<String> topicBroadcast = jssc.sparkContext().broadcast("dest-topic");
+	    // 通过Direct方式创建Dstream
 	    JavaPairDStream<String, String> kafkaPairDStream = KafkaUtils.createDirectStream(jssc,String.class, String.class,StringDecoder.class,StringDecoder.class ,kafkaParam,topicSet);
 	    
 	    JavaDStream<String> message = kafkaPairDStream.map( 
@@ -50,6 +51,10 @@ public class KafkaSparkStreaming {
 	    			}
 				}	
 	    		);
+	    //该部分可以编写业务逻辑
+	    
+	    
+	    // 通过遍历RDD来获取Kafka发送的每条消息
 	     message.foreachRDD(new VoidFunction<JavaRDD<String>>() {
 			 @Override
 			 public void call(JavaRDD<String> v1) throws Exception {
@@ -61,21 +66,18 @@ public class KafkaSparkStreaming {
 			    JedisPool pool =new  JedisPool(new JedisPoolConfig(),"192.168.125.171");
 			    try(Jedis jRedis = pool.getResource() ){
 			    while(stringIterator.hasNext()){
-				 producerTest.sendMessage( "dest-topic",stringIterator.next());	
-				 jRedis.publish("messages" , stringIterator.next() );
+			   
+				producerTest.sendMessage( "dest",stringIterator.next());//将RDD中的数据发送到dest主题	
+				jRedis.publish("messages" , stringIterator.next() );//将RDD数据发送到redis
 			    }			 
 			    } catch (Exception e) {
 					 e.printStackTrace( );
-				}
-			    
+				}    
 			    pool.close();
-			    
- 
 					}
 			    });
 		   }
 	    });
-	    	
 	     jssc.start();
 	     try {
 			jssc.awaitTermination();

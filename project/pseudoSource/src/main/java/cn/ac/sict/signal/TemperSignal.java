@@ -6,4 +6,9 @@ package cn.ac.sict.signal;
  */
 public class TemperSignal extends Signal {
 	public double temper;
+
+	@Override
+	public String toString() {
+		return super.toString() + "\tTemper: " + temper;
+	}
 }

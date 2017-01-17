@@ -1,5 +1,9 @@
 package ljg;
-
+/***
+ * 
+ * @author 定义线程，启动传感器
+ *
+ */
 public class SendMessage implements Runnable {
     private long timeStamp;
     private   int sensorId;

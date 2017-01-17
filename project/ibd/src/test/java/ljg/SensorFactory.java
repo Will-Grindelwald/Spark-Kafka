@@ -2,7 +2,11 @@ package ljg;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/***
+ * 
+ *  用于创建传感器实例
+ *
+ */
 public class SensorFactory {
      private static List<Thread> list =new ArrayList<>() ;
      

@@ -7,4 +7,9 @@ package cn.ac.sict.signal;
 public abstract class Signal {
 	public long id;
 	public long time;
+
+	@Override
+	public String toString() {
+		return "ID: " + id + "\tTime: " + time;
+	}
 }

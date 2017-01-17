@@ -15,6 +15,11 @@ import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
 import scala.Tuple2;
+/***
+ * 
+ *SparkStreaming 对终端输入的单词进行计数
+ *
+ */
 public class JavaNetworkWordCount {
 		
 	private static final  Pattern Space = Pattern.compile(" ");
@@ -32,7 +37,7 @@ public class JavaNetworkWordCount {
 					 };
 					 }
 				);
-	    JavaPairDStream<String , Integer> wordsCounts = words.mapToPair(
+	   JavaPairDStream<String , Integer> wordsCounts = words.mapToPair(
 				new	PairFunction<String,String,Integer>() {
 					@Override
 					 public Tuple2<String,Integer> call(String s) throws Exception {
@@ -41,7 +46,6 @@ public class JavaNetworkWordCount {
 					 }
 				}
 		).reduceByKey(new Function2<Integer, Integer, Integer>() {
-			
 			@Override
 			public Integer call(Integer arg0, Integer arg1) throws Exception {
 				// TODO Auto-generated method stub

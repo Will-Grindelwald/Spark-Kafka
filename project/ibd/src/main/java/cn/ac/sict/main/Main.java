@@ -53,9 +53,9 @@ public class Main {
 				configProps.getProperty("hbase_tableColumnFamily"), source, TemperSignal.class);
 
 		// vis
-		// Site site = new Site();
-		// List<Integer> list = site.getList();
-		// VisMap.getKafkaValue(source, list);
+		Site site = new Site();
+		List<Integer> list = site.getList();
+		VisMap.getKafkaValue(source, list);
 
 		// 启动 Spark Streaming
 		jssc.start();

@@ -28,8 +28,10 @@ public class Store {
 	public static <T extends Signal> void toHBase(HBaseSparkDAO hDAO, String tableNameStr, String columnFamily,
 			JavaPairReceiverInputDStream<String, String> source, Class<T> classOfT) {
 		JavaDStream<Signal> signalDStream = getSignal(source, classOfT);
+		//
+		signalDStream.print();
 		HBaseSparkDAOUtil.streamBulkPut(hDAO.getHbaseContext(), tableNameStr, signalDStream,
-				new PutFunction().setColumnFamily(columnFamily));
+				new PutFunction(columnFamily));
 	}
 
 	/**
@@ -40,13 +42,12 @@ public class Store {
 	 */
 	public static <T extends Signal> JavaDStream<Signal> getSignal(JavaPairReceiverInputDStream<String, String> source,
 			final Class<T> classOfT) {
-		final Gson gson = new Gson();
 		return getValue(source).map(new Function<String, Signal>() {
 			private static final long serialVersionUID = -7859770045664622717L;
 
 			@Override
 			public Signal call(String json) throws Exception {
-				return gson.fromJson(json, classOfT);
+				return new Gson().fromJson(json, classOfT);
 			}
 		});
 	}
@@ -76,17 +77,17 @@ public class Store {
 
 		private String columnFamily;
 
-		public PutFunction setColumnFamily(String columnFamily) {
+		public PutFunction(String columnFamily) {
 			this.columnFamily = columnFamily;
-			return this;
 		}
 
 		public Put call(Signal signal) throws Exception {
-			Put put = new Put(Bytes.toBytes(signal.id));
-			put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("time"), Bytes.toBytes(signal.time));
+			Put put = new Put(Bytes.toBytes(String.valueOf(signal.id)));
+			put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("time"),
+					Bytes.toBytes(String.valueOf(signal.time)));
 			if (signal instanceof TemperSignal) {
 				put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes("temper"),
-						Bytes.toBytes(((TemperSignal) signal).temper));
+						Bytes.toBytes(String.valueOf(((TemperSignal) signal).temper)));
 			} else {
 				System.err.println("ERROR 2: unknow signal");
 			}

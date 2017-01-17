@@ -12,7 +12,11 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 
 import scala.Tuple2;
-
+/***
+ * 
+ *  官方Demo对终端输入单词进行计数
+ *
+ */
 public class SparkStreaming {
 	public static void main(String[] args) {
 		 if (args.length < 4) {

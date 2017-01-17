@@ -3,7 +3,11 @@ package ljg;
 import java.util.Random;
 
 import org.json.JSONObject;
-
+/***
+ * 
+ *  模拟传感器向Kafka发送数据流
+ *
+ */
 public class SensorSimulator {
 	private int  id ;
 	private long startTimeStamp;
