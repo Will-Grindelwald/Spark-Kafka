@@ -28,8 +28,6 @@ public class Store {
 	public static <T extends Signal> void toHBase(HBaseSparkDAO hDAO, String tableNameStr, String columnFamily,
 			JavaPairReceiverInputDStream<String, String> source, Class<T> classOfT) {
 		JavaDStream<Signal> signalDStream = getSignal(source, classOfT);
-		//
-		signalDStream.print();
 		HBaseSparkDAOUtil.streamBulkPut(hDAO.getHbaseContext(), tableNameStr, signalDStream,
 				new PutFunction(columnFamily));
 	}
