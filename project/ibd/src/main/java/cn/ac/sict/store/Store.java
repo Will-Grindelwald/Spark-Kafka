@@ -8,8 +8,8 @@ import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 
 import com.google.gson.Gson;
 
-import cn.ac.sict.hbaseSparkDAO.HBaseSparkDAO;
-import cn.ac.sict.hbaseSparkDAO.HBaseSparkDAOUtil;
+import cn.ac.sict.hbase.spark.dao.HBaseSparkDAO;
+import cn.ac.sict.hbase.spark.dao.HBaseSparkDAOUtil;
 import cn.ac.sict.signal.Signal;
 import cn.ac.sict.signal.TemperSignal;
 import scala.Tuple2;

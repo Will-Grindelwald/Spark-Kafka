@@ -1,4 +1,4 @@
-package cn.ac.sict.Vis;
+package cn.ac.sict.vis;
 
 import java.util.ArrayList;
 import java.util.List;

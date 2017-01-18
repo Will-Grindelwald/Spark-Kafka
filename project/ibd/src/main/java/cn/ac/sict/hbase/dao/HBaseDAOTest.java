@@ -1,4 +1,4 @@
-package cn.ac.sict.hbaseDAO;
+package cn.ac.sict.hbase.dao;
 
 import java.io.IOException;
 import java.util.List;

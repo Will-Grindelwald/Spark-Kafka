@@ -18,15 +18,16 @@ public class TemperSensorProducer extends Thread {
 	private static final String partitioner = SimplePartitioner.class.getName();
 	private static final int min = 30, max = 70;
 
-	private final int ID; // 组号, 用于分区
+	private final int ID;
 	private final String Topic;
 	private final Producer<String, String> producer;
+	private final int interval;
 
 	private Random rnd;
 	private double randValue;
 	private TemperSignal signal;
 
-	public TemperSensorProducer(String kafkaStr, String topic, int id) {
+	public TemperSensorProducer(String kafkaStr, String topic, int id, int interval) {
 		Properties props = new Properties();
 		props.put("bootstrap.servers", kafkaStr);
 		props.put("acks", "all");
@@ -40,6 +41,7 @@ public class TemperSensorProducer extends Thread {
 
 		this.ID = id;
 		this.Topic = topic;
+		this.interval = interval;
 		this.producer = new KafkaProducer<String, String>(props);
 
 		this.rnd = new Random(System.nanoTime());
@@ -62,9 +64,9 @@ public class TemperSensorProducer extends Thread {
 				// System.out.println(ID + "\t2");
 				System.out.println(msg);
 
-				// 1000 ms 发一次消息
+				// interval 毫秒 发一次消息
 				try {
-					Thread.sleep(999);
+					Thread.sleep(interval);
 				} catch (InterruptedException e) {
 				}
 			}

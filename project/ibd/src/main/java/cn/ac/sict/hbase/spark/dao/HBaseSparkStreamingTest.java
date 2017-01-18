@@ -1,4 +1,4 @@
-package cn.ac.sict.hbaseSparkDAO;
+package cn.ac.sict.hbase.spark.dao;
 
 import java.io.IOException;
 import java.util.HashMap;

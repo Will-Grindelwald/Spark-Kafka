@@ -1,4 +1,4 @@
-package cn.ac.sict.hbaseSparkDAO;
+package cn.ac.sict.hbase.spark.dao;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HConstants;

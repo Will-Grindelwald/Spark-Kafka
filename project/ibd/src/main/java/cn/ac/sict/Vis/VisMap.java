@@ -1,4 +1,4 @@
-package cn.ac.sict.Vis;
+package cn.ac.sict.vis;
 
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +47,7 @@ public class VisMap {
 							jedis.set(map.get("id").toString(),
 									map.get("temper").toString() + ", time:" + map.get("time").toString());
 						}
-						// 没有发送数据的站点
+						// 没有发送数据的站点，此处还应完善
 						if (!l.isEmpty()) {
 							for (int i = 0; i < l.size(); i++) {
 								jedis.publish("error_site", "" + l.get(i));

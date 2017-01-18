@@ -1,4 +1,4 @@
-package com.ljc.hbase.hbaseForSparkExample;
+package com.ljc.hbase.hbase.spark.example;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -15,7 +15,7 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
-import com.ljc.sparkStreaming.template.KafkaStreamSource;
+import com.ljc.spark.streaming.template.KafkaStreamSource;
 
 import scala.Tuple2;
 

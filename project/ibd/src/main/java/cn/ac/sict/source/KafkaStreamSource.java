@@ -1,4 +1,4 @@
-package cn.ac.sict.streamSource;
+package cn.ac.sict.source;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.ljc.sparkStreaming.template;
+package com.ljc.spark.streaming.template;
 
 import java.util.HashMap;
 import java.util.Map;

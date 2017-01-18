@@ -1,4 +1,4 @@
-package com.ljc.sparkStreaming.template;
+package com.ljc.spark.streaming.template;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.streaming.Duration;

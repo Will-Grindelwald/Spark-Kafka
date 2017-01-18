@@ -1,4 +1,4 @@
-package com.ljc.sparkStreaming.example;
+package com.ljc.spark.streaming.example;
 
 import java.util.Arrays;
 import java.util.Iterator;

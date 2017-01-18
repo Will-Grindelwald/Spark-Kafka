@@ -1,4 +1,4 @@
-package com.ljc.hbase.hbaseForSparkExample;
+package com.ljc.hbase.hbase.spark.example;
 
 import java.util.ArrayList;
 import java.util.Iterator;

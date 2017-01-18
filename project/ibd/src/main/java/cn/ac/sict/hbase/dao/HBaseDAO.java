@@ -1,4 +1,4 @@
-package cn.ac.sict.hbaseDAO;
+package cn.ac.sict.hbase.dao;
 
 import java.io.Closeable;
 import java.io.IOException;

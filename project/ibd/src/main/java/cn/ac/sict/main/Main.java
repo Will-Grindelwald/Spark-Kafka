@@ -10,18 +10,18 @@ import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
-import cn.ac.sict.Vis.Site;
-import cn.ac.sict.Vis.VisMap;
-import cn.ac.sict.hbaseSparkDAO.HBaseSparkDAO;
+import cn.ac.sict.hbase.spark.dao.HBaseSparkDAO;
 import cn.ac.sict.signal.TemperSignal;
+import cn.ac.sict.source.KafkaStreamSource;
 import cn.ac.sict.store.Store;
-import cn.ac.sict.streamSource.KafkaStreamSource;
+import cn.ac.sict.vis.Site;
+import cn.ac.sict.vis.VisMap;
 
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException, IOException {
-		if (args.length != 2) {
-			System.err.println("Usage: Main <topics> <numThreads>");
+		if (args.length != 3) {
+			System.err.println("Usage: Main <topics> <numThreads> <interval>");
 			System.exit(1);
 		}
 
@@ -38,7 +38,7 @@ public class Main {
 		SparkConf sparkConf = new SparkConf().setAppName("Spark").set("spark.serializer",
 				"org.apache.spark.serializer.KryoSerializer");
 		JavaSparkContext jsc = new JavaSparkContext(sparkConf);
-		JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(1000));
+		JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(Integer.valueOf(args[2])));
 
 		// 从 kafka 消息源获取数据
 		JavaPairReceiverInputDStream<String, String> source = KafkaStreamSource.createStringSource(jssc,

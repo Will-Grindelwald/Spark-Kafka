@@ -1,4 +1,4 @@
-package cn.ac.sict.Vis;
+package cn.ac.sict.vis;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 

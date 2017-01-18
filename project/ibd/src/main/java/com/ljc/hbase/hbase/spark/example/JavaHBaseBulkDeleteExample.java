@@ -1,4 +1,4 @@
-package com.ljc.hbase.hbaseForSparkExample;
+package com.ljc.hbase.hbase.spark.example;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
