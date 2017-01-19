@@ -26,7 +26,8 @@
 |     |
 |     |__Vis/ -- `可视化相关代码`
 |        |__RedisClient.java  -- `redis 资源池`
-|        |__KafkaSparkStreaming.java -- `数据流经Kafka,Spark Streaming, redis 最终用于实时可视化`
+|        |__KafkaSparkStreaming.java -- `数据流经 Kafka, Spark Streaming, redis 最终用于实时可视化`
+|
 |__src.main.resource/ -- `资源文件目录`
    |__sysConfig.properties -- `存放公共常量, 读取方式见 cn.ac.sict.main.Main.java`
 ```
