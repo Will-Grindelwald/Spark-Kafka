@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../public/js/echats.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 800px;height:600px;" ></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var data = [];
+        option = {
+            title: {
+                text: '温度实时监控'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['0号传感器']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {readOnly: false},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '0号传感器',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series: [{
+                name: '0号传感器',
+                type: 'line',
+                showSymbol: false,
+                hoverAnimation: false,
+                data: data
+            }]
+
+        };
+        var es = new EventSource("stream");
+        es.addEventListener("message",dealWith);
+        function dealWith(e){
+            var message = JSON.parse(e.data);
+            message.time = Math.round(message.time/1000);
+            var new_data = [message.time,message.temper] ;
+            data.push(new_data);
+            myChart.setOption(option);
+
+        }
+    </script>
+</body>
+</html>
