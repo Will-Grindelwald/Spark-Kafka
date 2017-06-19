@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -7,6 +8,26 @@
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 	<name>ibd</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- 定义主要依赖库的版本 -->
+		<jdk.version>1.7</jdk.version>
+		<junit.version>4.12</junit.version>
+		<spark.version>2.0.2</spark.version>
+		<scala.binary.version>2.11</scala.binary.version>
+		<hadoop.version>2.7.3</hadoop.version>
+		<hbase.version>1.2.4</hbase.version>
+		<hbase-spark.version>1.2.0-cdh5.10.1</hbase-spark.version>
+		<redis-client.version>2.9.0</redis-client.version>
+		<org.json.version>20160810</org.json.version>
+		<gson.version>2.8.0</gson.version>
+		<net-json.version>2.4</net-json.version>
+		<mysql-driver.version>5.1.6</mysql-driver.version>
+		<!-- maven 插件版本 -->
+		<maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
+		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -18,23 +39,6 @@
 			<url>https://repository.apache.org/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
-		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
-		<jdk.version>1.7</jdk.version>
-		<spark.version>2.0.2</spark.version>
-		<scala.binary.version>2.11</scala.binary.version>
-		<hadoop.version>2.7.3</hadoop.version>
-		<hbase.version>1.2.4</hbase.version>
-		<hbase-spark.version>1.2.0-cdh5.10.1</hbase-spark.version>
-		<redis-client.version>2.9.0</redis-client.version>
-		<org.json.version>20160810</org.json.version>
-		<gson.version>2.8.0</gson.version>
-		<net-json.version>2.4</net-json.version>
-		<mysql-driver.version>5.1.6</mysql-driver.version>
-	</properties>
 
 	<dependencies>
 		<!-- spark -->
@@ -143,8 +147,19 @@
 
 		<plugins>
 
+			<!-- define the project compile level -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<!-- NOTE: Don't need groupId which is org.apache.maven.plugins by default. -->
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>${maven-assembly-plugin.version}</version>
 				<configuration>
@@ -159,21 +174,10 @@
 						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>assembly</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
 			</plugin>
 
 		</plugins>
