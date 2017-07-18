@@ -2,6 +2,8 @@
 
 <br>
 
+# 工业大数据实时分析与可视化 (Spark版) 部署文档
+
 ## 目录
 
 [TOC]
@@ -696,3 +698,20 @@ bin/spark-submit --class org.apache.spark.examples.SparkPi \
 这是示例程序的输出
 
 ![6](6.png)
+
+### 3.6 Spark Streaming 可配置的属性
+
+| Property Name                            | Default | Meaning                                  |
+| ---------------------------------------- | ------- | ---------------------------------------- |
+| `spark.streaming.backpressure.enabled`   | false   | Enables or disables Spark Streaming's internal backpressure mechanism (since 1.5). This enables the Spark Streaming to control the receiving rate based on the current batch scheduling delays and processing times so that the system receives only as fast as the system can process. Internally, this dynamically sets the maximum receiving rate of receivers. This rate is upper bounded by the values `spark.streaming.receiver.maxRate` and`spark.streaming.kafka.maxRatePerPartition` if they are set (see below). |
+| `spark.streaming.backpressure.initialRate` | not set | This is the initial maximum receiving rate at which each receiver will receive data for the first batch when the backpressure mechanism is enabled. |
+| `spark.streaming.blockInterval`          | 200ms   | Interval at which data received by Spark Streaming receivers is chunked into blocks of data before storing them in Spark. Minimum recommended - 50 ms. See the [performance tuning](http://spark.apache.org/docs/latest/streaming-programming-guide.html#level-of-parallelism-in-data-receiving)section in the Spark Streaming programing guide for more details. |
+| `spark.streaming.receiver.maxRate`       | not set | Maximum rate (number of records per second) at which each receiver will receive data. Effectively, each stream will consume at most this number of records per second. Setting this configuration to 0 or a negative number will put no limit on the rate. See the [deployment guide](http://spark.apache.org/docs/latest/streaming-programming-guide.html#deploying-applications) in the Spark Streaming programing guide for mode details. |
+| `spark.streaming.receiver.writeAheadLog.enable` | false   | Enable write ahead logs for receivers. All the input data received through receivers will be saved to write ahead logs that will allow it to be recovered after driver failures. See the [deployment guide](http://spark.apache.org/docs/latest/streaming-programming-guide.html#deploying-applications)in the Spark Streaming programing guide for more details. |
+| `spark.streaming.unpersist`              | true    | Force RDDs generated and persisted by Spark Streaming to be automatically unpersisted from Spark's memory. The raw input data received by Spark Streaming is also automatically cleared. Setting this to false will allow the raw data and persisted RDDs to be accessible outside the streaming application as they will not be cleared automatically. But it comes at the cost of higher memory usage in Spark. |
+| `spark.streaming.stopGracefullyOnShutdown` | false   | If `true`, Spark shuts down the `StreamingContext` gracefully on JVM shutdown rather than immediately. |
+| `spark.streaming.kafka.maxRatePerPartition` | not set | Maximum rate (number of records per second) at which data will be read from each Kafka partition when using the new Kafka direct stream API. See the [Kafka Integration guide](http://spark.apache.org/docs/latest/streaming-kafka-integration.html) for more details. |
+| `spark.streaming.kafka.maxRetries`       | 1       | Maximum number of consecutive retries the driver will make in order to find the latest offsets on the leader of each partition (a default value of 1 means that the driver will make a maximum of 2 attempts). Only applies to the new Kafka direct stream API. |
+| `spark.streaming.ui.retainedBatches`     | 1000    | How many batches the Spark Streaming UI and status APIs remember before garbage collecting. |
+| `spark.streaming.driver.writeAheadLog.closeFileAfterWrite` | false   | Whether to close the file after writing a write ahead log record on the driver. Set this to 'true' when you want to use S3 (or any file system that does not support flushing) for the metadata WAL on the driver. |
+| `spark.streaming.receiver.writeAheadLog.closeFileAfterWrite` | false   | Whether to close the file after writing a write ahead log record on the receivers. Set this to 'true' when you want to use S3 (or any file system that does not support flushing) for the data WAL on the receivers. |
