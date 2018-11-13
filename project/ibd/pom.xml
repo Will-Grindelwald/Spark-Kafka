@@ -79,13 +79,13 @@
 			<artifactId>hadoop-common</artifactId>
 			<version>${hadoop.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
 			<version>${jdk.version}</version>
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
-		</dependency>
+		</dependency> -->
 
 		<!-- hbase -->
 		<dependency>
